@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>József Márton Jung — Senior Backend Engineer</title>
+<style>
+  :root{
+    --bg: #f6f5f0;
+    --ink: #14161a;
+    --muted: #494c53;
+    --accent: #1547e6;
+    --accent-tint: #eaefff;
+    --accent2: #6d28d9;
+    --accent2-tint: #f0e9fb;
+    --accent3: #157a4a;
+    --accent3-tint: #e4f3ec;
+    --accent4: #0d7a7a;
+    --accent4-tint: #e2f3f3;
+    --accent5: #a8710a;
+    --accent-ink: #ffffff;
+    --line: #14161a;
+    --tag-bg: #ffffff;
+    --card: #ffffff;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(rgba(21,71,230,0.16) 1.2px, transparent 1.2px),
+      radial-gradient(rgba(168,113,10,0.14) 1.2px, transparent 1.2px);
+    background-size: 26px 26px, 26px 26px;
+    background-position: 0 0, 13px 13px;
+    color:var(--ink);
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size:17px;
+    line-height:1.68;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{
+    font-family: "SF Mono","JetBrains Mono","Courier New", monospace;
+    letter-spacing:0.01em;
+    font-size:1.08em;
+    font-weight:700;
+  }
+  a{ color:var(--accent); text-decoration:underline; text-decoration-thickness:1.5px; text-underline-offset:3px; font-weight:600; }
+  a:hover{ background:var(--accent); color:var(--accent-ink); text-decoration:none; }
+  a:focus-visible, button:focus-visible, summary:focus-visible{
+    outline:3px solid var(--accent); outline-offset:2px;
+  }
+
+  .wrap{ max-width:860px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* ---------- Signature element: marquee ---------- */
+  .marquee-bar{
+    position:relative;
+    height:42px;
+    display:flex;
+    align-items:center;
+    background:repeating-linear-gradient(45deg, #ffe600, #ffe600 10px, #000 10px, #000 20px);
+    border:2px solid var(--line);
+    margin-bottom:28px;
+    overflow:hidden;
+  }
+  .marquee-yellow-strip{
+    position:absolute;
+    left:0; right:0; top:50%;
+    transform:translateY(-50%);
+    height:24px;
+    background:#ffe600;
+    z-index:1;
+  }
+  .marquee-track{
+    position:relative;
+    z-index:2;
+    display:flex;
+    width:max-content;
+    animation: marquee-scroll 18s linear infinite;
+  }
+  .marquee-track span{
+    white-space:nowrap;
+    font-weight:700;
+    color:#000;
+    padding:0 20px;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size:14px;
+    letter-spacing:0.02em;
+  }
+  @keyframes marquee-scroll{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-50%); }
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    gap:10px;
+    padding-bottom:14px; margin-bottom:28px;
+    border-bottom:2px solid var(--line);
+    font-size:15px;
+  }
+  .topbar .brand{ font-weight:700; }
+  .topbar nav{ flex-shrink:0; white-space:nowrap; }
+  .topbar nav a{ margin-left:18px; font-weight:700; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    display:grid;
+    grid-template-columns: 96px 1fr;
+    gap:20px;
+    border:2px solid var(--line);
+    background:var(--card);
+    padding:22px;
+    margin-bottom:26px;
+  }
+  .avatar{
+    width:96px; height:96px;
+    border:2px solid var(--line);
+    background:var(--accent);
+    color:var(--accent-ink);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:22px;
+  }
+  .hero h1{
+    margin:0 0 6px; font-size:28px; line-height:1.2; letter-spacing:-0.01em;
+  }
+  .hero .tagline{
+    margin:0 0 14px; color:var(--muted); font-size:16px;
+  }
+  .hero .meta{
+    font-size:15px; font-weight:700; display:flex; flex-wrap:wrap; gap:10px 16px; color:var(--muted);
+  }
+  .hero .meta span{ margin-right:16px; display:inline-block; }
+  .hero .meta strong{ color:var(--ink); }
+
+  /* ---------- Section marker ---------- */
+  .marker{
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    color:var(--accent);
+    margin:0 0 14px;
+    padding-bottom:7px;
+    border-bottom:2px solid var(--line);
+  }
+  section{ margin-bottom:40px; }
+
+  /* ---------- About ---------- */
+  .about p{ margin:0 0 14px; font-size:17px; }
+
+  /* ---------- Skills ---------- */
+  .skill-group{ margin-bottom:10px; display:flex; gap:8px; flex-wrap:wrap; align-items:baseline; }
+  .skill-group .label{ font-size:14px; font-weight:700; color:var(--muted); min-width:120px; }
+  .tag{
+    display:inline-block;
+    border:1.5px solid var(--line);
+    background:var(--tag-bg);
+    padding:3px 9px;
+    font-size:13px;
+    margin:2px 4px 2px 0;
+  }
+  .tag.accent{ border-color:var(--accent); color:var(--accent); font-weight:700; background:var(--accent-tint); }
+  .tag.accent2{ border-color:var(--accent2); color:var(--accent2); font-weight:700; background:var(--accent2-tint); }
+  .tag.accent3{ border-color:var(--accent3); color:var(--accent3); font-weight:700; background:var(--accent3-tint); }
+  .tag.accent4{ border-color:var(--accent4); color:var(--accent4); font-weight:700; background:var(--accent4-tint); }
+
+  .badge-current{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    color:#fff;
+    background:var(--accent5);
+    border:1.5px solid var(--accent5);
+    padding:2px 7px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+
+  /* ---------- Experience ---------- */
+  details{
+    border:2px solid var(--line);
+    background:var(--card);
+    margin-bottom:10px;
+    padding:0;
+  }
+  summary{
+    list-style:none;
+    cursor:pointer;
+    padding:12px 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+  }
+  summary::-webkit-details-marker{ display:none; }
+  summary .co{ font-size:15px; }
+  summary .co .dates{ font-weight:700; color:var(--muted); font-size:14.5px; margin-left:8px; }
+  summary .toggle{ font-size:15px; font-weight:700; color:var(--accent); flex-shrink:0; }
+  details[open] summary{ border-bottom:2px solid var(--line); }
+  .exp-body{
+    padding:14px;
+    border-left:4px solid var(--accent);
+    margin:0;
+  }
+  .exp-body p{ margin:0 0 12px; font-size:15.5px; }
+  .exp-body .tech{ font-size:14px; color:var(--muted); }
+  .exp-body .tech .tag{ font-size:13.5px; font-weight:700; }
+
+  /* ---------- Contact ---------- */
+  .contact-box{
+    border:2px solid var(--line);
+    background:var(--card);
+    padding:18px;
+    font-size:16.5px;
+  }
+  .contact-row{ display:flex; gap:8px; padding:5px 0; }
+  .contact-row .k{ color:var(--muted); min-width:90px; font-weight:700; }
+
+  footer{
+    margin-top:40px;
+    padding-top:16px;
+    border-top:2px solid var(--line);
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+  }
+
+  @media (max-width:520px){
+    .hero{ grid-template-columns: 64px 1fr; padding:16px; }
+    .avatar{ width:64px; height:64px; font-size:16px; }
+    .hero h1{ font-size:21px; }
+    .topbar nav a{ margin-left:12px; }
+    footer{ flex-direction:column; gap:6px; }
+  }
+
+  /* ---------- Time-travel button ---------- */
+  .time-travel{
+    display:inline-block;
+    margin-left:18px;
+    background:#000;
+    color:#ffe600;
+    border:2px solid #000;
+    font-family: "SF Mono","JetBrains Mono","Courier New", monospace;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    padding:8px 12px;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:3px 3px 0 var(--accent);
+    vertical-align:middle;
+  }
+  .time-travel:hover{
+    background:#ffe600;
+    color:#000;
+  }
+  .time-travel kbd{
+    display:inline-block;
+    border:1px solid currentColor;
+    padding:0 4px;
+    margin-left:6px;
+    font-size:11px;
+  }
+  @media (max-width:520px){
+    .topbar{ flex-direction:column; align-items:flex-start; gap:10px; }
+    .topbar nav{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 0; }
+    .time-travel{ margin-left:0; margin-top:4px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar mono">
+    <div class="brand">jozef.rocks</div>
+    <nav>
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+      <a href="design-sketch-bold.html" class="time-travel">⏪ throw me back in time <kbd>n</kbd><kbd>g</kbd></a>
+    </nav>
+  </div>
+
+  <div class="marquee-bar">
+    <div class="marquee-yellow-strip"></div>
+    <div class="marquee-track">
+      <span>★ WELCOME TO JOZEF.ROCKS ★ 16 YEARS OF BACKEND ENGINEERING ★ SPEAKER AT GOLAB 2025 ★ NOW HIRING ME IS A GOOD IDEA ★</span>
+      <span>★ WELCOME TO JOZEF.ROCKS ★ 16 YEARS OF BACKEND ENGINEERING ★ SPEAKER AT GOLAB 2025 ★ NOW HIRING ME IS A GOOD IDEA ★</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="avatar mono">JMJ</div>
+    <div>
+      <h1>József Márton Jung</h1>
+      <p class="tagline">Senior Backend Engineer — Go, distributed systems, microservices architecture</p>
+      <div class="meta mono">
+        <span><strong>loc:</strong> Novi Sad, Serbia</span>
+        <span><strong>citizenship:</strong> Hungarian (EU) &amp; Serbian</span>
+        <span><strong>talk:</strong> <a href="#">GoLab 2025 →</a></span>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="marker mono">// about</div>
+    <div class="about">
+      <p>16 years of backend engineering. Most recently: architecting a platform that clients have used to migrate 1.2 million digital assets and 70+ government sites without major incident, and currently untangling a live 60+ microservice architecture built on Kafka.</p>
+      <p>Leading engineering teams of up to six, mentoring engineers since 2018, and actively involved in technical hiring at my last two roles.</p>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="marker mono">// skills</div>
+    <div class="skill-group">
+      <span class="label mono">languages</span>
+      <span class="tag accent">Go</span><span class="tag accent">Python</span><span class="tag accent">Java</span><span class="tag">JavaScript</span><span class="tag">TypeScript</span>
+    </div>
+    <div class="skill-group">
+      <span class="label mono">databases</span>
+      <span class="tag accent4">PostgreSQL</span><span class="tag accent4">MySQL</span><span class="tag accent4">Cassandra</span><span class="tag accent4">DynamoDB</span>
+    </div>
+    <div class="skill-group">
+      <span class="label mono">messaging</span>
+      <span class="tag accent2">Kafka</span><span class="tag accent2">RabbitMQ</span><span class="tag accent2">NATS</span>
+    </div>
+    <div class="skill-group">
+      <span class="label mono">cloud</span>
+      <span class="tag accent3">AWS</span><span class="tag accent3">GCP</span><span class="tag accent3">Oracle Cloud</span><span class="tag accent3">Kubernetes</span>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="marker mono">// experience</div>
+
+    <details open>
+      <summary>
+        <span class="co">MeridianBet <span class="dates mono">2026 – present</span><span class="badge-current mono">CURRENT</span></span>
+        <span class="toggle mono">[-]</span>
+      </summary>
+      <div class="exp-body">
+        <p>Platform Modernisation team — consolidating a 60+ service architecture built on Kafka, all of it live and under active development.</p>
+        <div class="tech mono"><span class="tag accent">Java</span><span class="tag accent2">Kafka</span><span class="tag accent4">Cassandra</span><span class="tag accent3">Kubernetes</span></div>
+      </div>
+    </details>
+
+    <details open>
+      <summary>
+        <span class="co">ContentLion <span class="dates mono">2024 – 2026</span></span>
+        <span class="toggle mono">[-]</span>
+      </summary>
+      <div class="exp-body">
+        <p>Led a team of six building a headless CMS from zero — now handling million-asset client migrations (1.2M assets, 70+ gov.ky sites).</p>
+        <div class="tech mono"><span class="tag accent">Go</span><span class="tag accent4">PostgreSQL</span><span class="tag accent3">Docker</span><span class="tag accent2">NATS</span></div>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <span class="co">Coolblue Energy <span class="dates mono">2021 – 2022</span></span>
+        <span class="toggle mono">[+]</span>
+      </summary>
+      <div class="exp-body">
+        <p>Implemented the OCPI CPO role from scratch, led two more from-zero services, and managed a team of five.</p>
+        <div class="tech mono"><span class="tag accent3">AWS</span><span class="tag accent">Python</span><span class="tag accent2">RabbitMQ</span></div>
+      </div>
+    </details>
+
+  </section>
+
+  <section id="contact">
+    <div class="marker mono">// contact</div>
+    <div class="contact-box mono">
+      <div class="contact-row"><span class="k">email</span> <a href="mailto:jung.jozsef.m@gmail.com">jung.jozsef.m@gmail.com</a></div>
+      <div class="contact-row"><span class="k">phone</span> <span>+381 63 722 3028</span></div>
+      <div class="contact-row"><span class="k">linkedin</span> <a href="#">→ profile</a></div>
+      <div class="contact-row"><span class="k">cv</span> <a href="#">→ download</a></div>
+    </div>
+  </section>
+
+  <footer class="mono">
+    <span>© jozef.rocks</span>
+    <span>freediving / photography / old Amigas</span>
+  </footer>
+
+</div>
+  <script>
+    document.addEventListener('keydown', function(e){
+      var tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      var k = e.key.toLowerCase();
+      if (k === 'n' || k === 'g') {
+        window.location.href = 'design-sketch-bold.html';
+      }
+    });
+  </script>
+</body>
+</html>

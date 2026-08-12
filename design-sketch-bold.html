@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>József Márton Jung — Senior Backend Engineer</title>
+<style>
+  :root{
+    --bg: #0a0a6e;
+    --ink: #000000;
+    --panel: #ffffff;
+    --yellow: #ffe600;
+    --magenta: #ff00c8;
+    --cyan: #00e5ff;
+    --green: #00d13a;
+    --orange: #ff7a00;
+    --purple: #7c1fd6;
+    --blue: #0044ee;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background-color:#1a0a6e;
+    background-image:
+      radial-gradient(#ffe600 1.5px, transparent 1.5px),
+      radial-gradient(#00e5ff 1.5px, transparent 1.5px);
+    background-size: 28px 28px, 28px 28px;
+    background-position: 0 0, 14px 14px;
+    color:var(--ink);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size:15px;
+    line-height:1.5;
+  }
+  a{ color:var(--blue); font-weight:bold; }
+  a:hover{ color:var(--green); background:#000; }
+
+  .wrap{ max-width:820px; margin:0 auto; padding:18px 14px 60px; }
+
+  /* ---------- marquee ---------- */
+  .marquee-bar{
+    position:relative;
+    height:42px;
+    display:flex;
+    align-items:center;
+    background:repeating-linear-gradient(45deg, var(--yellow), var(--yellow) 10px, #000 10px, #000 20px);
+    border:4px solid #000;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .marquee-yellow-strip{
+    position:absolute;
+    left:0; right:0; top:50%;
+    transform:translateY(-50%);
+    height:24px;
+    background:var(--yellow);
+    z-index:1;
+  }
+  .marquee-track{
+    position:relative;
+    z-index:2;
+    display:flex;
+    width:max-content;
+    animation: scroll 18s linear infinite;
+  }
+  .marquee-track span{
+    white-space:nowrap;
+    font-weight:bold;
+    color:#000;
+    padding:0 20px;
+    font-family: Verdana, sans-serif;
+    letter-spacing:0.5px;
+  }
+  @keyframes scroll{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-50%); }
+  }
+
+  /* ---------- beveled panel ---------- */
+  .panel{
+    background:var(--panel);
+    border:4px solid #000;
+    box-shadow: 6px 6px 0 #000;
+    padding:16px;
+    margin-bottom:20px;
+  }
+  .panel-yellow{ background:var(--yellow); }
+  .panel-cyan{ background:var(--cyan); }
+
+  /* ---------- header ---------- */
+  header.hero{
+    text-align:center;
+    padding:20px 14px;
+    border:6px double #000;
+    background:linear-gradient(180deg, var(--cyan), var(--panel) 60%);
+    box-shadow: 8px 8px 0 #000;
+    margin-bottom:18px;
+  }
+  .avatar{
+    width:90px; height:90px;
+    margin:0 auto 10px;
+    border:4px solid #000;
+    background:var(--blue);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:bold; font-size:22px;
+    box-shadow:4px 4px 0 #000;
+  }
+  header.hero h1{
+    margin:0 0 6px;
+    font-size:32px;
+    color:var(--blue);
+    text-shadow: 2px 2px 0 var(--yellow), 4px 4px 0 #000;
+    letter-spacing:0.5px;
+  }
+  header.hero .tagline{
+    margin:0 0 10px; font-weight:bold; font-size:15px;
+    background:#000; color:var(--yellow);
+    display:inline-block; padding:4px 10px;
+  }
+  header.hero .badges{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  .badge{
+    border:3px solid #000; background:var(--green); color:#000;
+    font-size:11px; font-weight:bold; padding:4px 8px;
+    box-shadow:3px 3px 0 #000;
+  }
+  .badge.blue{ background:var(--cyan); }
+  .badge.orange{ background:var(--orange); color:#fff; }
+
+  /* ---------- section title ---------- */
+  .stitle{
+    display:inline-block;
+    background:#000; color:var(--yellow);
+    font-weight:bold; font-size:18px;
+    padding:5px 14px;
+    margin:0 0 12px;
+    transform: rotate(-1deg);
+    box-shadow:4px 4px 0 var(--magenta);
+  }
+  section{ margin-bottom:30px; }
+
+  hr.rainbow{
+    border:0; height:6px;
+    background:repeating-linear-gradient(90deg, #ff0000 0 10%, #ff9900 10% 20%, #ffee00 20% 30%, #33cc33 30% 40%, #0066ff 40% 50%, #9900cc 50% 60%, #ff0000 60% 70%, #ff9900 70% 80%, #ffee00 80% 90%, #33cc33 90% 100%);
+    margin:26px 0;
+  }
+
+  /* ---------- skills ---------- */
+  .skill-row{ margin-bottom:10px; }
+  .skill-row .label{ font-weight:bold; display:inline-block; min-width:110px; color:var(--purple); }
+  .stag{
+    display:inline-block;
+    border:2.5px solid #000;
+    background:var(--yellow);
+    padding:2px 8px;
+    font-size:12.5px;
+    font-weight:bold;
+    margin:2px 3px;
+    box-shadow:2px 2px 0 #000;
+  }
+  .stag.blue{ background:var(--cyan); }
+  .stag.pink{ background:var(--magenta); color:#fff; }
+  .stag.green{ background:var(--green); }
+
+  /* ---------- experience ---------- */
+  details.job{
+    border:4px solid #000;
+    background:var(--panel);
+    margin-bottom:14px;
+    box-shadow:5px 5px 0 #000;
+  }
+  details.job[open]{ background:#fffbe6; }
+  summary{
+    list-style:none;
+    cursor:pointer;
+    padding:10px 12px;
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    font-weight:bold;
+    background:var(--cyan);
+    border-bottom:4px solid #000;
+  }
+  details.job:not([open]) summary{ border-bottom:none; }
+  summary::-webkit-details-marker{ display:none; }
+  summary .dates{ font-weight:normal; font-size:12px; margin-left:8px; }
+  summary .toggle{ font-weight:bold; background:#000; color:var(--yellow); padding:1px 6px; }
+  .exp-body{ padding:12px; }
+  .exp-body p{ margin:0 0 10px; font-size:14.5px; }
+  .star{ color:var(--orange); }
+
+  /* ---------- contact ---------- */
+  .contact-box{
+    border:4px double #000;
+    background:var(--panel);
+    padding:16px;
+    box-shadow:6px 6px 0 var(--purple);
+  }
+  .contact-row{ display:flex; gap:8px; padding:4px 0; font-size:14px; }
+  .contact-row .k{ font-weight:bold; min-width:90px; color:var(--purple); }
+
+  footer{
+    margin-top:30px;
+    text-align:center;
+    font-size:11px;
+    color:#fff;
+    padding:14px;
+  }
+  footer a{ color:var(--yellow); }
+
+  @media (max-width:520px){
+    header.hero h1{ font-size:24px; }
+    .widgets{ justify-content:center; }
+  }
+
+  /* ---------- topbar/nav ---------- */
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    background:var(--panel);
+    border:4px solid #000;
+    padding:10px 14px;
+    margin-bottom:14px;
+    box-shadow:5px 5px 0 #000;
+  }
+  .topbar .brand{ font-weight:bold; color:var(--blue); }
+  .topbar nav{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; }
+  .topbar nav a{ font-weight:bold; margin-right:14px; }
+  .topbar nav a:last-of-type{ margin-right:0; }
+
+  /* ---------- Return button ---------- */
+  .time-travel{
+    display:inline-block;
+    background:var(--yellow);
+    color:#000;
+    border:3px solid #000;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size:12px;
+    font-weight:bold;
+    padding:8px 12px;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:4px 4px 0 #000;
+  }
+  .time-travel:hover{
+    background:var(--blue);
+    color:#fff;
+  }
+  @media (max-width:520px){
+    .topbar{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">jozef.rocks</div>
+    <nav>
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+      <a href="design-sketch-combined.html" class="time-travel">bring me back, plz 🙏</a>
+    </nav>
+  </div>
+
+  <div class="marquee-bar">
+    <div class="marquee-yellow-strip"></div>
+    <div class="marquee-track">
+      <span>★ WELCOME TO JOZEF.ROCKS ★ 16 YEARS OF BACKEND ENGINEERING ★ SPEAKER AT GOLAB 2025 ★ NOW HIRING ME IS A GOOD IDEA ★</span>
+      <span>★ WELCOME TO JOZEF.ROCKS ★ 16 YEARS OF BACKEND ENGINEERING ★ SPEAKER AT GOLAB 2025 ★ NOW HIRING ME IS A GOOD IDEA ★</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="avatar">JMJ</div>
+    <h1>József Márton Jung</h1>
+    <div class="tagline">SENIOR BACKEND ENGINEER — GO // DISTRIBUTED SYSTEMS // MICROSERVICES</div>
+    <div class="badges">
+      <span class="badge">Novi Sad, Serbia</span>
+      <span class="badge blue">Hungarian (EU) & Serbian</span>
+      <span class="badge orange">GoLab 2025 Speaker</span>
+    </div>
+  </header>
+
+  <hr class="rainbow">
+
+  <section id="about">
+    <span class="stitle">// ABOUT ME</span>
+    <div class="panel">
+      <p><span class="star">★</span> 16 years of backend engineering. Most recently: architecting a platform that clients have used to migrate <strong>1.2 million digital assets</strong> and <strong>70+ government sites</strong> without major incident, and currently untangling a live <strong>60+ microservice architecture</strong> built on Kafka.</p>
+      <p><span class="star">★</span> Leading engineering teams of up to six, mentoring engineers since 2018, and actively involved in technical hiring at my last two roles.</p>
+    </div>
+  </section>
+
+  <section id="skills">
+    <span class="stitle">// SKILLS</span>
+    <div class="panel panel-yellow">
+      <div class="skill-row">
+        <span class="label">LANGUAGES:</span>
+        <span class="stag blue">Go</span><span class="stag blue">Python</span><span class="stag blue">Java</span><span class="stag">JavaScript</span><span class="stag">TypeScript</span>
+      </div>
+      <div class="skill-row">
+        <span class="label">MESSAGING:</span>
+        <span class="stag pink">Kafka</span><span class="stag pink">RabbitMQ</span><span class="stag pink">NATS</span>
+      </div>
+      <div class="skill-row">
+        <span class="label">CLOUD:</span>
+        <span class="stag green">AWS</span><span class="stag green">GCP</span><span class="stag green">Oracle Cloud</span><span class="stag green">Kubernetes</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rainbow">
+
+  <section id="experience">
+    <span class="stitle">// EXPERIENCE</span>
+
+    <details class="job" open>
+      <summary>
+        <span>MeridianBet <span class="dates">2026 – present</span></span>
+        <span class="toggle">[ − ]</span>
+      </summary>
+      <div class="exp-body">
+        <p>Platform Modernisation team — consolidating a 60+ service architecture built on Kafka, all of it live and under active development.</p>
+        <span class="stag blue">Java</span><span class="stag pink">Kafka</span><span class="stag">Cassandra</span><span class="stag green">Kubernetes</span>
+      </div>
+    </details>
+
+    <details class="job" open>
+      <summary>
+        <span>ContentLion <span class="dates">2024 – 2026</span></span>
+        <span class="toggle">[ − ]</span>
+      </summary>
+      <div class="exp-body">
+        <p>Led a team of six building a headless CMS from zero — now handling million-asset client migrations (1.2M assets, 70+ gov.ky sites).</p>
+        <span class="stag blue">Go</span><span class="stag">PostgreSQL</span><span class="stag green">Docker</span><span class="stag pink">NATS</span>
+      </div>
+    </details>
+
+    <details class="job">
+      <summary>
+        <span>Coolblue Energy <span class="dates">2021 – 2022</span></span>
+        <span class="toggle">[ + ]</span>
+      </summary>
+      <div class="exp-body">
+        <p>Implemented the OCPI CPO role from scratch, led two more from-zero services, and managed a team of five.</p>
+        <span class="stag green">AWS</span><span class="stag blue">Python</span><span class="stag pink">RabbitMQ</span>
+      </div>
+    </details>
+
+  </section>
+
+  <hr class="rainbow">
+
+  <section id="contact">
+    <span class="stitle">// CONTACT ME</span>
+    <div class="contact-box">
+      <div class="contact-row"><span class="k">EMAIL:</span> <a href="mailto:jung.jozsef.m@gmail.com">jung.jozsef.m@gmail.com</a></div>
+      <div class="contact-row"><span class="k">PHONE:</span> +381 63 722 3028</div>
+      <div class="contact-row"><span class="k">LINKEDIN:</span> <a href="#">→ my profile</a></div>
+      <div class="contact-row"><span class="k">CV:</span> <a href="#">→ download here</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© JOZEF.ROCKS — MADE WITH ☕ IN NOVI SAD, SERBIA</div>
+    <div style="margin-top:6px;">freediving // photography // old amigas</div>
+  </footer>
+
+</div>
+</body>
+</html>

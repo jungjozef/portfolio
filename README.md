@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# jozef.rocks
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal portfolio site for József Márton Jung — senior backend engineer.
 
-## Available Scripts
+Plain static site: HTML, CSS and vanilla JS. **No build step, no dependencies, no
+tooling.** Editing a file and reloading the browser is the whole dev loop.
 
-In the project directory, you can run:
+## Layout
 
-### `yarn start`
+```
+site/                       everything that gets published
+├── index.html              the single page (both visual modes, one DOM)
+├── styles.css              normal mode + `html.bold` overrides
+├── script.js               mode toggle, localStorage, n/g shortcuts
+├── robots.txt
+├── sitemap.xml
+├── staticwebapp.config.json
+└── assets/
+    ├── headshot.jpg
+    └── favicon.ico
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+CNAME                       custom domain record
+.github/workflows/          Azure Static Web Apps CI/CD
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Project docs — `CLAUDE.md`, `CONTENT.md`, `DESIGN.md`, `STRUCTURE.md`, `SEO.md`,
+`PLAN.md`, `Jung_Jozsef_CV_draft.md`, and the `design-sketch*.html` blueprints — live at
+the repo root and are deliberately **outside** `site/`, so they are never published.
 
-### `yarn test`
+`CONTENT.md` is the source of truth for all copy. Change copy there first, then in
+`site/index.html` — never invent content in the HTML.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Run locally
 
-### `yarn build`
+Open `site/index.html` directly in a browser, or serve it:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+python3 -m http.server 8000 --directory site
+# http://localhost:8000
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Two visual modes
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+One DOM, one set of content. The toggle in the nav row (or pressing `n` / `g`) adds
+`class="bold"` to `<html>`; CSS does the rest. The choice is stored in `localStorage`
+under `jozefrocks-mode`. First-time visitors always get normal mode.
 
-### `yarn eject`
+## Deploy
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Push to `main`. The Azure Static Web Apps workflow uploads `site/` verbatim
+(`skip_app_build: true`) — no build runs.

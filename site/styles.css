@@ -1,0 +1,595 @@
+/* =========================================================================
+   jozef.rocks — one stylesheet, two visual modes.
+
+   Normal mode (default)  : flat, bordered, calm. Rules below.
+   Bold / time-travel mode: everything under the `html.bold` scope at the end.
+
+   The two modes share one DOM. Nothing here changes text content — only
+   presentation and purely decorative elements (marquee stripes, rainbow rules).
+   ========================================================================= */
+
+:root{
+  /* base */
+  --bg:            #f6f5f0;
+  --ink:           #14161a;
+  --muted:         #494c53;
+  --line:          #14161a;
+  --card:          #ffffff;
+  --accent:        #1547e6;   /* the one committed accent */
+  --accent-ink:    #ffffff;
+
+  /* functional tag categories — same tag, same colour, everywhere on the site */
+  --lang:          #1547e6;  --lang-tint:  #eaefff;   /* languages   */
+  --db:            #0d7a7a;  --db-tint:    #e2f3f3;   /* databases   */
+  --msg:           #6d28d9;  --msg-tint:   #f0e9fb;   /* messaging   */
+  --cloud:         #157a4a;  --cloud-tint: #e4f3ec;   /* cloud/infra */
+
+  /* amber: CURRENT badge only, never a category colour.
+     --amber is the spec hue (border); --amber-fill is a darkened shade of it so
+     white badge text clears WCAG AA — #a8710a cannot do that with any text colour. */
+  --amber:         #a8710a;
+  --amber-fill:    #8a5c05;
+
+  --marquee-yellow:#ffe600;
+}
+
+*{ box-sizing:border-box; }
+
+html,body{ margin:0; padding:0; }
+
+body{
+  background-color:var(--bg);
+  /* subtle two-colour dot texture (blue + amber), offset grid */
+  background-image:
+    radial-gradient(rgba(21,71,230,0.16) 1.2px, transparent 1.2px),
+    radial-gradient(rgba(168,113,10,0.14) 1.2px, transparent 1.2px);
+  background-size: 26px 26px, 26px 26px;
+  background-position: 0 0, 13px 13px;
+  color:var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size:17px;
+  line-height:1.68;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Monospace is structural here, not decorative: bold, near body size. */
+.mono{
+  font-family: "SF Mono", "JetBrains Mono", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;
+  font-weight:700;
+  letter-spacing:0.01em;
+}
+
+a{
+  color:var(--accent);
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-thickness:1.5px;
+  text-underline-offset:3px;
+}
+a:hover{ background:var(--accent); color:var(--accent-ink); text-decoration:none; }
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+
+.wrap{ max-width:860px; margin:0 auto; padding:28px 20px 80px; }
+
+section{ margin-bottom:40px; }
+
+/* -------------------------------------------------------------------------
+   Signature element: the marquee. Full-width, very top of the page.
+   Hazard stripes fill the bar; a static yellow band sits centred; the text
+   scrolls seamlessly (track is 2 identical spans, translated -50%).
+   ------------------------------------------------------------------------- */
+.marquee-bar{
+  position:relative;
+  height:42px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  background:repeating-linear-gradient(45deg,
+    var(--marquee-yellow), var(--marquee-yellow) 10px, #000 10px, #000 20px);
+  border-top:2px solid var(--line);
+  border-bottom:2px solid var(--line);
+}
+.marquee-band{
+  position:absolute;
+  left:0; right:0; top:50%;
+  transform:translateY(-50%);
+  height:24px;
+  background:var(--marquee-yellow);
+  z-index:1;
+}
+.marquee-track{
+  position:relative;
+  z-index:2;
+  display:flex;
+  width:max-content;
+  animation:marquee-scroll 26s linear infinite;
+}
+.marquee-track span{
+  white-space:nowrap;
+  padding:0 20px;
+  color:#000;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:0.02em;
+}
+@keyframes marquee-scroll{
+  from{ transform:translateX(0); }
+  to  { transform:translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{ animation:none; }
+}
+
+/* Decorative divider — bold mode only. */
+hr.rainbow{ display:none; }
+
+/* -------------------------------------------------------------------------
+   Top bar / nav
+   ------------------------------------------------------------------------- */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding-bottom:14px;
+  margin-bottom:28px;
+  border-bottom:2px solid var(--line);
+  font-size:15px;
+}
+.topbar nav{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 18px; }
+.topbar nav a{ font-weight:700; }
+
+.mode-toggle{
+  display:inline-block;
+  background:#000;
+  color:var(--marquee-yellow);
+  border:2px solid #000;
+  box-shadow:3px 3px 0 var(--accent);
+  font-family:inherit;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:0.02em;
+  padding:8px 12px;
+  cursor:pointer;
+}
+.mode-toggle:hover{ background:var(--marquee-yellow); color:#000; }
+.mode-toggle kbd{
+  display:inline-block;
+  border:1px solid currentColor;
+  padding:0 4px;
+  margin-left:5px;
+  font-size:11px;
+  font-family:inherit;
+}
+.mode-toggle .to-normal{ display:none; }
+
+/* -------------------------------------------------------------------------
+   Hero
+   ------------------------------------------------------------------------- */
+.hero{
+  display:grid;
+  grid-template-columns:104px 1fr;
+  gap:20px;
+  border:2px solid var(--line);
+  background:var(--card);
+  padding:22px;
+  margin-bottom:26px;
+}
+.avatar{
+  display:block;
+  width:104px;
+  height:104px;
+  border:2px solid var(--accent);
+  object-fit:cover;
+}
+.hero h1{ margin:0 0 6px; font-size:30px; line-height:1.2; letter-spacing:-0.01em; }
+.hero .tagline{ margin:0 0 8px; color:var(--muted); font-size:16.5px; }
+.hero .oneliner{ margin:0 0 14px; font-size:16.5px; }
+.hero .meta{
+  display:flex; flex-wrap:wrap; gap:6px 18px;
+  font-size:14.5px; color:var(--muted);
+}
+.hero .meta strong{ color:var(--ink); }
+.cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+.btn{
+  display:inline-block;
+  border:2px solid var(--accent);
+  background:var(--lang-tint);
+  color:var(--accent);
+  padding:8px 12px;
+  font-size:14.5px;
+  text-decoration:none;
+}
+.btn:hover{ background:var(--accent); color:var(--accent-ink); }
+
+/* -------------------------------------------------------------------------
+   Section markers
+   ------------------------------------------------------------------------- */
+.marker{
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:0.03em;
+  color:var(--accent);
+  margin:0 0 14px;
+  padding-bottom:7px;
+  border-bottom:2px solid var(--line);
+}
+
+/* Content wrapper. Transparent in normal mode; a beveled panel in bold mode. */
+.panel{ margin:0; }
+.panel p{ margin:0 0 14px; }
+.panel p:last-child{ margin-bottom:0; }
+.talk{ font-size:14.5px; }
+
+/* -------------------------------------------------------------------------
+   Skills
+   ------------------------------------------------------------------------- */
+.skill-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 10px;
+  align-items:baseline;
+  margin-bottom:12px;
+}
+.skill-group .label{
+  flex:0 0 auto;
+  min-width:190px;
+  font-size:14.5px;
+  color:var(--muted);
+  text-transform:lowercase;
+}
+.skill-group .tags{ flex:1 1 300px; }
+.skill-group .also{
+  font-size:13px;
+  color:var(--muted);
+  margin:0 6px 0 4px;
+}
+
+.tag{
+  display:inline-block;
+  border:1.5px solid var(--line);
+  background:var(--card);
+  padding:3px 9px;
+  margin:2px 5px 2px 0;
+  font-family:"SF Mono", "JetBrains Mono", "Roboto Mono", Menlo, Consolas, "Courier New", monospace;
+  font-size:14px;
+  font-weight:700;
+}
+.tag.t-lang { border-color:var(--lang);  color:var(--lang);  background:var(--lang-tint); }
+.tag.t-db   { border-color:var(--db);    color:var(--db);    background:var(--db-tint); }
+.tag.t-msg  { border-color:var(--msg);   color:var(--msg);   background:var(--msg-tint); }
+.tag.t-cloud{ border-color:var(--cloud); color:var(--cloud); background:var(--cloud-tint); }
+
+/* -------------------------------------------------------------------------
+   Experience — native details/summary, no JS
+   ------------------------------------------------------------------------- */
+.job{
+  border:2px solid var(--line);
+  background:var(--card);
+  margin-bottom:10px;
+}
+.job summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:12px 14px;
+}
+.job summary::-webkit-details-marker{ display:none; }
+.job-head{ display:block; }
+.job-title{
+  display:block;
+  font-size:16px;
+  font-weight:700;
+}
+.job-title .dates{ font-size:14.5px; color:var(--muted); margin-left:6px; }
+.job-title .via{ font-size:13.5px; color:var(--muted); margin-left:4px; }
+.gist{
+  display:block;
+  margin-top:3px;
+  font-size:15.5px;
+  font-weight:400;
+  color:var(--ink);
+}
+.badge-current{
+  display:inline-block;
+  vertical-align:2px;
+  margin-left:6px;
+  padding:2px 7px;
+  border:1.5px solid var(--amber);
+  background:var(--amber-fill);
+  color:#fff;
+  font-size:12px;
+  letter-spacing:0.04em;
+}
+/* [+] / [-] cue is CSS-generated, so it can never be out of sync with state. */
+.toggle{
+  flex:0 0 auto;
+  color:var(--accent);
+  font-size:16px;
+}
+.toggle::after{ content:"[+]"; }
+.job[open] .toggle::after{ content:"[-]"; }
+.job[open] summary{ border-bottom:2px solid var(--line); }
+
+.exp-body{
+  padding:14px;
+  border-left:4px solid var(--accent);
+}
+.exp-body p{ margin:0 0 12px; font-size:16px; }
+.exp-body .tech{ font-size:14px; }
+
+/* -------------------------------------------------------------------------
+   Contact
+   ------------------------------------------------------------------------- */
+.contact-box{
+  margin:0;
+  border:2px solid var(--line);
+  background:var(--card);
+  padding:18px;
+  font-size:16px;
+}
+.contact-row{ display:flex; gap:10px; padding:5px 0; }
+.contact-row dt{ flex:0 0 100px; color:var(--muted); }
+.contact-row dd{ margin:0; }
+
+footer{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:40px;
+  padding-top:16px;
+  border-top:2px solid var(--line);
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* -------------------------------------------------------------------------
+   Responsive (normal mode)
+   ------------------------------------------------------------------------- */
+/* Stack early: between ~560 and ~700px the nav wraps to two lines and the brand
+   ends up floating between them, so switch to the stacked layout before that. */
+@media (max-width:700px){
+  .skill-group .label{ min-width:0; flex:1 1 100%; }
+  body{ font-size:16px; }
+  .wrap{ padding:20px 14px 60px; }
+  .topbar{ flex-direction:column; align-items:flex-start; }
+  .mode-toggle{ margin-top:2px; }
+  .hero{ grid-template-columns:72px 1fr; gap:14px; padding:16px; }
+  .avatar{ width:72px; height:72px; }
+  .hero h1{ font-size:23px; }
+  .cta{ gap:8px; }
+  .btn{ font-size:13.5px; }
+  .contact-row{ flex-direction:column; gap:0; }
+  .contact-row dt{ flex:none; }
+  footer{ flex-direction:column; }
+}
+
+/* =========================================================================
+   BOLD / TIME-TRAVEL MODE
+   Same DOM, different skin. Everything below is scoped to html.bold.
+   ========================================================================= */
+html.bold{
+  --yellow:  #ffe600;
+  --magenta: #ff00c8;
+  --cyan:    #00e5ff;
+  --green:   #00d13a;
+  --orange:  #ff7a00;
+  --purple:  #7c1fd6;
+  --blue:    #0044ee;
+}
+
+html.bold body{
+  background-color:#1a0a6e;
+  background-image:
+    radial-gradient(#ffe600 1.5px, transparent 1.5px),
+    radial-gradient(#00e5ff 1.5px, transparent 1.5px);
+  background-size:28px 28px, 28px 28px;
+  background-position:0 0, 14px 14px;
+  color:#000;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size:15px;
+  line-height:1.5;
+}
+html.bold .wrap{ max-width:820px; padding:16px 14px 40px; }
+html.bold .mono{ font-family:Verdana, Geneva, Tahoma, sans-serif; }
+
+html.bold a{ color:var(--blue); font-weight:bold; text-decoration:underline; }
+html.bold a:hover{ color:var(--green); background:#000; }
+html.bold a:focus-visible,
+html.bold button:focus-visible,
+html.bold summary:focus-visible{ outline:3px solid #000; outline-offset:2px; }
+
+/* marquee */
+html.bold .marquee-bar{ border-top-width:4px; border-bottom-width:4px; border-color:#000; }
+html.bold .marquee-track span{ font-size:15px; letter-spacing:0.5px; }
+
+/* rainbow rules become visible */
+html.bold hr.rainbow{
+  display:block;
+  border:0;
+  height:6px;
+  margin:26px 0;
+  background:repeating-linear-gradient(90deg,
+    #ff0000 0 10%, #ff9900 10% 20%, #ffee00 20% 30%, #33cc33 30% 40%,
+    #0066ff 40% 50%, #9900cc 50% 60%, #ff0000 60% 70%, #ff9900 70% 80%,
+    #ffee00 80% 90%, #33cc33 90% 100%);
+}
+
+/* top bar becomes a beveled panel */
+html.bold .topbar{
+  background:#fff;
+  border:4px solid #000;
+  border-bottom:4px solid #000;
+  box-shadow:5px 5px 0 #000;
+  padding:10px 14px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+html.bold .topbar .brand{ color:var(--blue); font-weight:bold; }
+html.bold .mode-toggle{
+  background:var(--yellow);
+  color:#000;
+  border:3px solid #000;
+  box-shadow:4px 4px 0 #000;
+  font-size:12px;
+}
+html.bold .mode-toggle:hover{ background:var(--blue); color:#fff; }
+html.bold .mode-toggle .to-bold{ display:none; }
+html.bold .mode-toggle .to-normal{ display:inline; }
+
+/* hero */
+html.bold .hero{
+  display:block;
+  text-align:center;
+  border:6px double #000;
+  background:linear-gradient(180deg, var(--cyan), #fff 60%);
+  box-shadow:8px 8px 0 #000;
+  padding:20px 14px;
+  margin-bottom:18px;
+}
+html.bold .avatar{
+  width:96px; height:96px;
+  margin:0 auto 10px;
+  border:4px solid #000;
+  box-shadow:4px 4px 0 #000;
+}
+html.bold .hero h1{
+  font-size:32px;
+  color:var(--blue);
+  text-shadow:2px 2px 0 var(--yellow), 4px 4px 0 #000;
+  letter-spacing:0.5px;
+}
+html.bold .hero .tagline{
+  display:inline-block;
+  background:#000;
+  color:var(--yellow);
+  font-weight:bold;
+  font-size:14px;
+  padding:4px 10px;
+  text-transform:uppercase;
+}
+html.bold .hero .oneliner{ font-size:14.5px; color:#000; }
+html.bold .hero .meta{ justify-content:center; gap:8px; font-size:12px; color:#000; }
+/* meta items become sticker badges */
+html.bold .hero .meta > span{
+  border:3px solid #000;
+  background:var(--green);
+  box-shadow:3px 3px 0 #000;
+  padding:4px 8px;
+  font-weight:bold;
+}
+html.bold .hero .meta > span:nth-child(2){ background:var(--cyan); }
+html.bold .hero .meta > span:nth-child(3){ background:var(--orange); }
+html.bold .hero .meta strong{ color:#000; }
+html.bold .hero .meta a{ color:#000; }              /* AA on orange/cyan fills */
+html.bold .hero .meta a:hover{ color:var(--yellow); background:#000; }
+html.bold .cta{ justify-content:center; }
+html.bold .btn{
+  border:3px solid #000;
+  background:var(--yellow);
+  color:#000;
+  box-shadow:4px 4px 0 #000;
+  font-weight:bold;
+  font-size:13px;
+}
+html.bold .btn:hover{ background:var(--blue); color:#fff; }
+
+/* section markers become rotated stickers */
+html.bold .marker{
+  display:inline-block;
+  background:#000;
+  color:var(--yellow);
+  border:0;
+  padding:5px 14px;
+  margin:0 0 12px;
+  font-size:18px;
+  text-transform:uppercase;
+  transform:rotate(-1deg);
+  box-shadow:4px 4px 0 var(--magenta);
+}
+
+/* content wrappers become beveled panels */
+html.bold .panel{
+  background:#fff;
+  border:4px solid #000;
+  box-shadow:6px 6px 0 #000;
+  padding:16px;
+}
+html.bold .panel-yellow{ background:var(--yellow); }
+html.bold .skill-group .label{ color:var(--purple); text-transform:uppercase; font-size:13px; }
+html.bold .skill-group .also{ color:#000; text-transform:uppercase; }
+
+/* tags become stickers; same category → same meaning, louder palette */
+html.bold .tag{
+  border:2.5px solid #000;
+  background:var(--yellow);
+  box-shadow:2px 2px 0 #000;
+  color:#000;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-size:12.5px;
+  padding:2px 8px;
+}
+html.bold .tag.t-lang { background:var(--cyan);    color:#000; }
+html.bold .tag.t-db   { background:var(--yellow);  color:#000; }
+html.bold .tag.t-msg  { background:var(--magenta); color:#000; }
+html.bold .tag.t-cloud{ background:var(--green);   color:#000; }
+
+/* experience */
+html.bold .job{
+  border:4px solid #000;
+  background:#fff;
+  box-shadow:5px 5px 0 #000;
+  margin-bottom:14px;
+}
+html.bold .job[open]{ background:#fffbe6; }
+html.bold .job summary{ background:var(--cyan); padding:10px 12px; }
+html.bold .job[open] summary{ border-bottom:4px solid #000; }
+html.bold .job-title{ font-size:15px; }
+html.bold .job-title .dates,
+html.bold .job-title .via{ color:#000; font-weight:normal; font-size:12px; }
+html.bold .gist{ font-size:13.5px; color:#000; }
+html.bold .badge-current{
+  border:2px solid #000;
+  background:var(--orange);
+  color:#000;
+  box-shadow:2px 2px 0 #000;
+  font-size:11px;
+}
+html.bold .toggle{
+  background:#000;
+  color:var(--yellow);
+  padding:1px 6px;
+  font-size:14px;
+}
+html.bold .exp-body{ border-left:0; padding:12px; }
+html.bold .exp-body p{ font-size:14px; }
+
+/* contact */
+html.bold .contact-box{
+  border:4px double #000;
+  background:#fff;
+  box-shadow:6px 6px 0 var(--purple);
+  font-size:14px;
+}
+html.bold .contact-row dt{ color:var(--purple); font-weight:bold; text-transform:uppercase; }
+
+html.bold footer{
+  border-top:0;
+  margin-top:26px;
+  padding-top:0;
+  color:#fff;
+  font-size:12px;
+  text-align:center;
+  flex-direction:column;
+  align-items:center;
+}
+
+@media (max-width:700px){
+  html.bold .hero h1{ font-size:24px; }
+  html.bold .marker{ font-size:16px; }
+}
