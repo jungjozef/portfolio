@@ -119,8 +119,8 @@ Deviation from `STRUCTURE.md` (which puts `index.html` at repo root): deliberate
 
 ### Phase G — deploy (hold for explicit go-ahead)
 - [x] Workflow updated per §4
-- [ ] Commit + push, watch the SWA run, confirm jozef.rocks serves the new page
-- [ ] Confirm docs/sketches are NOT reachable over HTTP
+- [x] Commit + push (done manually), watch the SWA run, confirm jozef.rocks serves the new page
+- [x] Confirm docs/sketches are NOT reachable over HTTP — verified 2026-08-12: all 404
 
 ## 4. Azure Static Web Apps workflow changes
 
