@@ -24,10 +24,32 @@ over-optimizing for at this stage.
   confusion if the site is ever reachable via multiple URLs (www vs non-www, trailing
   slash, etc.).
 - Open Graph tags (`og:title`, `og:description`, `og:type=profile`, `og:url`,
-  `og:image` if a photo/headshot is used) — controls how the link looks when shared
-  on LinkedIn, Slack, etc.
-- Twitter/X card tags (`twitter:card=summary`, mirrors the OG tags) — optional but
-  cheap to add alongside OG.
+  `og:site_name`, `og:locale`, `og:image` plus `og:image:width/height/type/alt`) —
+  controls how the link looks when shared on LinkedIn, Slack, Discord, etc.
+  `og:site_name` is not optional: Discord shows it above the title, and without it
+  the card reads as anonymous.
+- Twitter/X card tags: `twitter:card=summary_large_image` (not plain `summary`, which
+  renders a cramped thumbnail), mirroring the OG title/description/image plus
+  `twitter:image:alt`.
+
+### Length budgets (enforced — these were being truncated before)
+| Tag | Budget | Why |
+|---|---|---|
+| `<title>` | ≤ 60 chars | Google truncates past ~60 |
+| `meta description` | ≤ 155 chars | Google truncates around 150–160 |
+| `og:title` / `twitter:title` | ≤ 60 chars | X and LinkedIn truncate |
+| `og:description` / `twitter:description` | ≤ 125 chars | Social previews show ~125, less on mobile |
+
+### Social card image
+`og:image` must be **1200×630 (1.91:1)**, not the square headshot — square images get
+cropped or letterboxed by most platforms. The card carries its own headline and CTA
+text (name, role, stack, `→ jozef.rocks`) so it still reads as a link worth clicking
+when the surrounding text is truncated.
+
+Source of the card is `tools/og-card.html`, rendered to `site/assets/og-card.png` by
+`tools/render-og-card.sh` (headless Chrome, no dependencies, no build step). `tools/`
+sits outside `site/`, so the source page is never published. Re-run that script after
+changing the card, and keep `og:image:width/height` in sync with the output.
 - `<meta name="viewport" content="width=device-width, initial-scale=1">` — already
   implied by the responsive requirement in DESIGN.md, just confirming it belongs here.
 

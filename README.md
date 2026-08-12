@@ -17,11 +17,22 @@ site/                       everything that gets published
 ├── staticwebapp.config.json
 └── assets/
     ├── headshot.jpg
+    ├── og-card.png         1200x630 social card (generated, see tools/)
     └── favicon.ico
 
 CNAME                       custom domain record
 .github/workflows/          Azure Static Web Apps CI/CD
+tools/                      not published: og-card.html + render-og-card.sh
 ```
+
+## Regenerating the social card
+
+```sh
+./tools/render-og-card.sh     # headless Chrome -> site/assets/og-card.png (1200x630)
+```
+
+Edit `tools/og-card.html` first. Keep `og:image:width`/`height` in `site/index.html`
+matching the output, and see SEO.md for the meta length budgets.
 
 Project docs — `CLAUDE.md`, `CONTENT.md`, `DESIGN.md`, `STRUCTURE.md`, `SEO.md`,
 `PLAN.md`, `Jung_Jozsef_CV_draft.md`, and the `design-sketch*.html` blueprints — live at
