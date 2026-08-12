@@ -289,11 +289,14 @@ change them together.
 
 ## Contact / links
 - Email: jung.jozsef.m@gmail.com
-- Phone: +381 63 722 3028
 - Location: Novi Sad, Serbia
 - LinkedIn: https://www.linkedin.com/in/jungjm/
 - CV download: jung_jozsef_marton_cv.pdf (shipped in the site root, served from
   https://jozef.rocks/jung_jozsef_marton_cv.pdf)
+
+**Deliberately not on the site: the phone number.** Email and LinkedIn are enough for
+first contact, and the number is already in the CV PDF for anyone who downloads it. Do
+not re-add it to the contact list, the hero, or the `Person` JSON-LD (`telephone`).
 
 ## Citizenship / eligibility note
 Resolved via the design sketches: included in the hero meta row (alongside location

@@ -39,10 +39,11 @@ No build step. `index.html` links `styles.css` and `script.js` directly.
    description and tech tags. MeridianBet and ContentLion default to `open`; all
    other entries default closed. No curation/selection logic needed — every role
    from CONTENT.md gets an entry, in order.
-5. **Contact** — email (mailto:), phone, LinkedIn (placeholder URL — see CONTENT.md),
-   location. GitHub link is still an open decision in CONTENT.md — build the section
-   so it can be added later without restructuring, but don't include a placeholder
-   for it now. Simple, no form.
+5. **Contact** — email (mailto:), location, LinkedIn, CV download. No phone number:
+   email and LinkedIn cover first contact and the number is in the CV PDF already
+   (see CONTENT.md). GitHub link is still an open decision in CONTENT.md — build the
+   section so it can be added later without restructuring, but don't include a
+   placeholder for it now. Simple, no form.
 
 ## Mode toggle (present on every load, both modes)
 An inline nav item, alongside about/skills/experience/contact, switches between

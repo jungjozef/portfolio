@@ -65,8 +65,8 @@ Deviation from `STRUCTURE.md` (which puts `index.html` at repo root): deliberate
 ### Phase B — markup (`site/index.html`)
 - [x] `<head>` per SEO.md: title, description, canonical `https://jozef.rocks/`, OG
       (`og:type=profile`, absolute `og:image`), Twitter summary card, viewport, favicon
-- [x] `Person` JSON-LD: name, alternateName, jobTitle, url, image, email, telephone,
-      address, sameAs (LinkedIn placeholder), knowsAbout
+- [x] `Person` JSON-LD: name, alternateName, jobTitle, url, image, email, address,
+      sameAs (LinkedIn), knowsAbout. No `telephone` (D17)
 - [x] Inline pre-paint script in `<head>` (reads `jozefrocks-mode`, sets `<html class="bold">`)
 - [x] Marquee: stripe bar + static yellow band + duplicated-span seamless track (D5 copy)
 - [x] Nav row: brand, anchors, mode-toggle `<button>` (sketches use an `<a href>` to the other
@@ -81,7 +81,7 @@ Deviation from `STRUCTURE.md` (which puts `index.html` at repo root): deliberate
       `<details>`/`<summary>`, MeridianBet + ContentLion `open`, `[+]`/`[-]` via CSS
       `::after` (never a hardcoded wrong-state glyph), amber CURRENT badge on MeridianBet only,
       full paragraph + colour-coded tech tags per entry
-- [x] Contact: email (mailto), phone, location, LinkedIn placeholder, CV placeholder (D3);
+- [x] Contact: email (mailto), location, LinkedIn, CV (D3); no phone (D17);
       no GitHub row, same list pattern so one can be added later
 - [x] Footer: personal-touch one-liner
 - [x] Exactly one `h1`, sections `h2`, no skipped levels
@@ -162,6 +162,7 @@ Oryx build) — that fails once `package.json` is gone. New build config:
 | D12 | `#a8710a` cannot carry WCAG AA badge text with *any* text colour (4.17:1 white, 4.34:1 near-black) | `--amber` stays the badge border (so amber still means CURRENT and nothing else); the fill is a darkened shade of the same hue, `--amber-fill: #8a5c05`, with white text at 5.81:1 |
 | D13 | Bold mode used white text on magenta (3.45:1) and orange (2.62:1) in the sketch | Same fills, black text instead — 5.25:1 and 6.93:1. DESIGN.md's AA requirement applies to bold mode too, even though D4 lets its palette keep red |
 | D14 | Marquee placement: DESIGN.md says "very top of the page" and STRUCTURE.md says "full-width", but the sketches nest it inside the content column below the nav | Followed the docs: marquee is the first element in `<body>`, full viewport width, top/bottom borders only. Nav sits below it |
+| D17 | Phone number on the site | Removed everywhere: contact list row, `tel:` link, and `telephone` in the Person JSON-LD. Email plus LinkedIn cover first contact, and the number is still in the downloadable CV PDF. Recorded in CONTENT.md and STRUCTURE.md so it does not get re-added |
 | D16 | Copy edited directly in `site/index.html` (commit `363ac89`) had drifted from the docs | Docs synced to the shipped page, not the reverse: CONTENT.md (tagline, About, LinkedIn, CV, footer rendering, new "Marquee copy" section) and DESIGN.md (toggle labels "⏪ throw me back" / "bring me back 🙏"). CONTENT.md stays the source of truth |
 | D15 | Between ~560 and ~700px the nav wrapped to two lines and the brand floated between them (seen in the browser pass) | Stacked layout breakpoint raised from 560px to 700px, in both modes |
 
