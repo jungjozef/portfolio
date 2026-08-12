@@ -154,6 +154,8 @@ exactly the "spend your boldness in one place" principle. Construction:
 - In normal mode, the marquee's own text uses the site's sans-serif font at a modest
   size — loud in color/motion, not in typography. In bold mode (see below) it also
   carries the heavier Verdana treatment consistent with that mode.
+- The banner's actual wording lives in CONTENT.md ("Marquee copy"), like all other
+  copy on the site — not here.
 
 ## Dual mode: Normal ⇄ Time-travel (bold)
 The site has two visual presentations of the exact same content:
@@ -178,8 +180,8 @@ mode this requirement exists to prevent in the real build.
 
 **Switching mechanism:**
 - A button, inline within the nav row (alongside about/experience/contact — see
-  STRUCTURE.md), in both modes: "⏪ throw me back in time" (normal → bold) and
-  "bring me back, plz 🙏" (bold → normal), each styled consistently with the mode
+  STRUCTURE.md), in both modes: "⏪ throw me back" (normal → bold) and
+  "bring me back 🙏" (bold → normal), each styled consistently with the mode
   it appears in. Not a fixed/floating overlay — it lives in normal document flow as
   part of the nav, so it scrolls with the page and doesn't sit on top of content.
 - Keyboard shortcuts `n` and `g` also trigger normal → bold (not required in the

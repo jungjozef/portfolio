@@ -152,7 +152,7 @@ Oryx build) — that fails once `package.json` is gone. New build config:
 | D2 | Headshot | Reuse `public/self.jpg` (B&W CV portrait), downscaled with `sips`; no filters |
 | D3 | CV download | Placeholder `https://link.to/my-cv` per CONTENT.md; no PDF shipped |
 | D4 | Bold mode vs DESIGN.md's "no red anywhere" | **Sketch wins for bold mode**: rainbow rule (incl. `#ff0000`), magenta `#ff00c8`, orange `#ff7a00` stay. Normal mode remains strictly red-free |
-| D5 | Marquee copy (absent from CONTENT.md) | Facts only, CONTENT.md-derived: `★ SENIOR BACKEND ENGINEER ★ GO / DISTRIBUTED SYSTEMS ★ 16 YEARS OF BACKEND ENGINEERING ★ GOLAB 2025 SPEAKER ★ NOVI SAD, SERBIA ★` |
+| D5 | Marquee copy (was absent from CONTENT.md) | Facts only: `★ SENIOR BACKEND ENGINEER ★ GO, PYTHON, JAVA / DISTRIBUTED SYSTEMS ★ 16 YEARS OF BACKEND ENGINEERING ★ GOLAB 2025 SPEAKER ★ NOVI SAD, SERBIA ★`. Now recorded in CONTENT.md under "Marquee copy", so it has a source of truth like the rest of the copy |
 | D6 | Old icons/PWA | Keep `favicon.ico` only; delete `manifest.json`, `logo192.png`, `logo512.png` |
 | D7 | Experience order | CONTENT.md order verbatim — GIA Hungaria (2013–2014) stays last, matching the CV |
 | D8 | Reduced motion (not covered by any doc) | Honour `prefers-reduced-motion: reduce`: marquee bar and text stay, scroll animation stops |
@@ -162,6 +162,7 @@ Oryx build) — that fails once `package.json` is gone. New build config:
 | D12 | `#a8710a` cannot carry WCAG AA badge text with *any* text colour (4.17:1 white, 4.34:1 near-black) | `--amber` stays the badge border (so amber still means CURRENT and nothing else); the fill is a darkened shade of the same hue, `--amber-fill: #8a5c05`, with white text at 5.81:1 |
 | D13 | Bold mode used white text on magenta (3.45:1) and orange (2.62:1) in the sketch | Same fills, black text instead — 5.25:1 and 6.93:1. DESIGN.md's AA requirement applies to bold mode too, even though D4 lets its palette keep red |
 | D14 | Marquee placement: DESIGN.md says "very top of the page" and STRUCTURE.md says "full-width", but the sketches nest it inside the content column below the nav | Followed the docs: marquee is the first element in `<body>`, full viewport width, top/bottom borders only. Nav sits below it |
+| D16 | Copy edited directly in `site/index.html` (commit `363ac89`) had drifted from the docs | Docs synced to the shipped page, not the reverse: CONTENT.md (tagline, About, LinkedIn, CV, footer rendering, new "Marquee copy" section) and DESIGN.md (toggle labels "⏪ throw me back" / "bring me back 🙏"). CONTENT.md stays the source of truth |
 | D15 | Between ~560 and ~700px the nav wrapped to two lines and the brand floated between them (seen in the browser pass) | Stacked layout breakpoint raised from 560px to 700px, in both modes |
 
 ## 6. Verification results (Phase F)

@@ -2,7 +2,8 @@
 
 ## Hero
 Name: József Márton Jung
-Title/tagline: Senior Backend Engineer — Go, distributed systems, cloud architecture
+Title/tagline: Senior Backend Engineer — Go, Python, Java, distributed systems, cloud
+architecture
 One-liner: 16 years building backend systems, from fuel dispenser protocols to
 large-scale microservices platforms.
 
@@ -10,9 +11,9 @@ large-scale microservices platforms.
 16 years of backend engineering. Most recently: architecting a platform that
 clients have used to migrate 1.2 million digital assets and 70+ government sites
 without major incident, and currently untangling a live 60+ microservice
-architecture built on Kafka. Currently centered on Go, distributed systems, and
-microservices architecture — leading engineering teams of up to six, mentoring
-younger colleagues since 2018, and actively involved in hiring at my last two roles
+architecture built on Kafka. Currently centered on Go and Java, distributed systems,
+and microservices architecture — leading engineering teams, mentoring younger
+colleagues, and actively involved in hiring at my last two roles
 (CV review, technical interviews, structured feedback). Speaker at GoLab 2025. Based
 in Novi Sad, Serbia; Hungarian (EU) and Serbian citizen.
 
@@ -267,13 +268,24 @@ Link: https://golab.io/talks/beyond-basics-modern-go-patterns-for-large-scale-ap
 
 ## Personal touch (used sparingly — one line, not a section)
 Outside of work: freediving, photography, and restoring old Amiga computers.
+As rendered in the footer (condensed, slash-separated): `freediving / photography /
+Amiga computers`
+
+## Marquee copy (signature element — see DESIGN.md)
+Facts only, all of them stated elsewhere on the page, so the marquee stays decorative
+and is hidden from assistive tech:
+`★ SENIOR BACKEND ENGINEER ★ GO, PYTHON, JAVA / DISTRIBUTED SYSTEMS ★ 16 YEARS OF
+BACKEND ENGINEERING ★ GOLAB 2025 SPEAKER ★ NOVI SAD, SERBIA ★`
+The string is duplicated in two `<span>`s for the seamless scroll — same text in both,
+change them together.
 
 ## Contact / links
 - Email: jung.jozsef.m@gmail.com
 - Phone: +381 63 722 3028
 - Location: Novi Sad, Serbia
-- LinkedIn: https://link.to/my-linkedin (placeholder — to be updated manually)
-- CV download: https://link.to/my-cv (placeholder — to be updated manually)
+- LinkedIn: https://www.linkedin.com/in/jungjm/
+- CV download: jung_jozsef_marton_cv.pdf (shipped in the site root, served from
+  https://jozef.rocks/jung_jozsef_marton_cv.pdf)
 
 ## Citizenship / eligibility note
 Resolved via the design sketches: included in the hero meta row (alongside location
@@ -298,6 +310,7 @@ reference — this file is the source of truth.
 **Resolved:**
 - Photo: yes, use the professional headshot (same one as the CV). Small, in the hero
   area, per DESIGN.md — not a large banner image.
-- LinkedIn and CV download links: use placeholders (https://link.to/my-linkedin,
-  https://link.to/my-cv) — real URLs to be swapped in manually later. Build the
-  markup/links as normal, just pointing at these placeholder URLs for now.
+- LinkedIn: real URL now in place — https://www.linkedin.com/in/jungjm/ — used both in
+  the contact section and as `sameAs` in the Person JSON-LD.
+- CV download: real PDF now shipped as `site/jung_jozsef_marton_cv.pdf`, linked from
+  both the hero CTA and the contact section. No placeholder link left on the site.
